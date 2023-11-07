@@ -45,3 +45,14 @@ func StudentShow(c *gin.Context) {
 
 	c.JSON(http.StatusOK, student)
 }
+
+func StudentDelete(c *gin.Context) {
+	id := c.Params.ByName("id")
+
+	var student models.Student
+	database.DB.Delete(&student, id)
+
+	c.JSON(http.StatusOK, gin.H{
+		"success": true,
+	})
+}
