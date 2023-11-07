@@ -27,7 +27,7 @@ func StudentCreate(c *gin.Context) {
 
 	database.DB.Create(&student)
 
-	c.JSON(http.StatusOK, student)
+	c.JSON(http.StatusCreated, student)
 }
 
 func StudentShow(c *gin.Context) {
@@ -42,6 +42,24 @@ func StudentShow(c *gin.Context) {
 		})
 		return
 	}
+
+	c.JSON(http.StatusOK, student)
+}
+
+func StudentUpdate(c *gin.Context) {
+	var student models.Student
+
+	id := c.Params.ByName("id")
+	database.DB.First(&student, id)
+
+	if err := c.ShouldBindJSON(&student); err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{
+			"error": err.Error(),
+		})
+		return
+	}
+
+	database.DB.Model(&student).UpdateColumns(student)
 
 	c.JSON(http.StatusOK, student)
 }
