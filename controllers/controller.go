@@ -36,5 +36,12 @@ func StudentShow(c *gin.Context) {
 	var student models.Student
 	database.DB.First(&student, id)
 
+	if student.ID == 0 {
+		c.JSON(http.StatusNotFound, gin.H{
+			"message": "student not found",
+		})
+		return
+	}
+
 	c.JSON(http.StatusOK, student)
 }
