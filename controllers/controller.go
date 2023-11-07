@@ -9,8 +9,10 @@ import (
 )
 
 func StudentIndex(c *gin.Context) {
+	cpf := c.Query("cpf")
+
 	var students []models.Student
-	database.DB.Find(&students)
+	database.DB.Where(&models.Student{CPF: cpf}).Find(&students)
 
 	c.JSON(http.StatusOK, students)
 }
