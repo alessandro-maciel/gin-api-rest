@@ -9,9 +9,10 @@ import (
 )
 
 func StudentIndex(c *gin.Context) {
-	database.DB.Find(&models.Students)
+	var students []models.Student
+	database.DB.Find(&students)
 
-	c.JSON(http.StatusOK, models.Students)
+	c.JSON(http.StatusOK, students)
 }
 
 func StudentCreate(c *gin.Context) {
@@ -25,6 +26,15 @@ func StudentCreate(c *gin.Context) {
 	}
 
 	database.DB.Create(&student)
+
+	c.JSON(http.StatusOK, student)
+}
+
+func StudentShow(c *gin.Context) {
+	id := c.Params.ByName("id")
+
+	var student models.Student
+	database.DB.First(&student, id)
 
 	c.JSON(http.StatusOK, student)
 }

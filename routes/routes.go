@@ -10,6 +10,7 @@ func HandleRequests() {
 
 	r.GET("/students", controllers.StudentIndex)
 	r.POST("/students", controllers.StudentCreate)
+	r.GET("/students/:id", controllers.StudentShow)
 
 	r.Run()
 }
