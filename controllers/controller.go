@@ -24,6 +24,15 @@ func StudentCreate(c *gin.Context) {
 		c.JSON(http.StatusBadRequest, gin.H{
 			"error": err.Error(),
 		})
+
+		return
+	}
+
+	if err := models.ValidateData(&student); err != nil {
+		c.JSON(http.StatusUnprocessableEntity, gin.H{
+			"error": err.Error(),
+		})
+
 		return
 	}
 
@@ -58,6 +67,14 @@ func StudentUpdate(c *gin.Context) {
 		c.JSON(http.StatusBadRequest, gin.H{
 			"error": err.Error(),
 		})
+		return
+	}
+
+	if err := models.ValidateData(&student); err != nil {
+		c.JSON(http.StatusUnprocessableEntity, gin.H{
+			"error": err.Error(),
+		})
+
 		return
 	}
 
