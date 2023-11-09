@@ -63,14 +63,16 @@ func StudentUpdate(c *gin.Context) {
 	id := c.Params.ByName("id")
 	database.DB.First(&student, id)
 
-	if err := c.ShouldBindJSON(&student); err != nil {
+	var new_student models.Student
+
+	if err := c.ShouldBindJSON(&new_student); err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{
 			"error": err.Error(),
 		})
 		return
 	}
 
-	if err := models.ValidateData(&student); err != nil {
+	if err := models.ValidateData(&new_student); err != nil {
 		c.JSON(http.StatusUnprocessableEntity, gin.H{
 			"error": err.Error(),
 		})
@@ -78,7 +80,7 @@ func StudentUpdate(c *gin.Context) {
 		return
 	}
 
-	database.DB.Model(&student).UpdateColumns(student)
+	database.DB.Model(&student).Updates(new_student)
 
 	c.JSON(http.StatusOK, student)
 }
