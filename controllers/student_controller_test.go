@@ -1,4 +1,4 @@
-package main
+package controllers
 
 import (
 	"bytes"
@@ -8,7 +8,6 @@ import (
 	"strconv"
 	"testing"
 
-	"github.com/alessandro-maciel/gin-api-rest/controllers"
 	"github.com/alessandro-maciel/gin-api-rest/database"
 	"github.com/alessandro-maciel/gin-api-rest/models"
 	"github.com/gin-gonic/gin"
@@ -33,7 +32,7 @@ func TestListStudents(t *testing.T) {
 
 	CreateStudentsMock()
 
-	Routes.GET("/students", controllers.StudentIndex)
+	Routes.GET("/students", StudentIndex)
 
 	request, _ := http.NewRequest("GET", "/students", nil)
 	response := httptest.NewRecorder()
@@ -50,7 +49,7 @@ func TestListStudents(t *testing.T) {
 func TestCreateStudent(t *testing.T) {
 	Setup()
 
-	Routes.POST("/students", controllers.StudentCreate)
+	Routes.POST("/students", StudentCreate)
 
 	var student = models.Student{
 		Name: "Student 1", CPF: "11111111111", RG: "111111111",
@@ -85,7 +84,7 @@ func TestShowStudent(t *testing.T) {
 
 	CreateStudentsMock()
 
-	Routes.GET("/students/:id", controllers.StudentShow)
+	Routes.GET("/students/:id", StudentShow)
 
 	student := Students[len(Students)-1]
 	student_id := student.ID
@@ -110,7 +109,7 @@ func TestUpdateStudent(t *testing.T) {
 
 	CreateStudentsMock()
 
-	Routes.PUT("/students/:id", controllers.StudentUpdate)
+	Routes.PUT("/students/:id", StudentUpdate)
 
 	updated_student := models.Student{
 		Name: "updated student", CPF: "33333333333", RG: "333333333",
@@ -149,7 +148,7 @@ func TestDeleteStudent(t *testing.T) {
 
 	CreateStudentsMock()
 
-	Routes.DELETE("/students/:id", controllers.StudentDelete)
+	Routes.DELETE("/students/:id", StudentDelete)
 
 	student := Students[len(Students)-1]
 	student_id := student.ID
